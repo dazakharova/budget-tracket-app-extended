@@ -53,7 +53,7 @@ function App() {
         <p id='balance'>{saldo} €</p>
       </div>
       <TransactionForm addTransaction={addTransaction} />
-      <TransactionList transactionList={transactions} removeTransaction={removeTransaction}  />  
+      <TransactionList removeTransaction={removeTransaction}  />  
     </div>
     </TrackerContext>
   )
