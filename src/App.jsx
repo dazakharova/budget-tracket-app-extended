@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { TrackerContext } from './store/tracker-context.jsx'
 import TransactionList from './components/TransactionList'
 import TransactionForm from './components/TransactionForm.jsx'
 import './App.css'
@@ -39,8 +40,13 @@ function App() {
     setSaldo(newSaldo)
   }, [transactions])
 
+  const ctxValue = {
+    transactions: transactions
+  }
+
   return (
-    <div className='container'>
+    <TrackerContext value={ctxValue}>
+      <div className='container'>
       <h2>Budget Tracker</h2>
       <div className='balance-box'>
         <h3>Saldo</h3>
@@ -49,6 +55,7 @@ function App() {
       <TransactionForm addTransaction={addTransaction} />
       <TransactionList transactionList={transactions} removeTransaction={removeTransaction}  />  
     </div>
+    </TrackerContext>
   )
 }
 
