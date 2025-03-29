@@ -5,7 +5,7 @@ import './App.css'
 import {useContext} from "react";
 
 function App() {
-  const { saldo, addTransaction, removeTransaction } = useContext(TrackerContext)
+  const { saldo, addTransaction } = useContext(TrackerContext)
 
 
   return (
@@ -17,7 +17,7 @@ function App() {
         <p id='balance'>{saldo} €</p>
       </div>
       <TransactionForm addTransaction={addTransaction} />
-      <TransactionList removeTransaction={removeTransaction}  />
+      <TransactionList />
     </div>
     </TrackerContextProvider>
   )

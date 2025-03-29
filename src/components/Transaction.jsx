@@ -1,7 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useContext } from 'react'
+import { TrackerContext } from '../store/tracker-context.jsx'
 import Confirmation from './Confirmation'
 
-const Transaction = ({data, removeTransaction}) => {
+const Transaction = ({data}) => {
+  const { removeTransaction } = useContext(TrackerContext)
     const dialog = useRef()
 
     const handleTransactionRemoval = () => {
