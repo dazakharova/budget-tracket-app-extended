@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { TrackerContext } from '../store/tracker-context.jsx';
 
-const TransactionForm = ({addTransaction}) => {
+const TransactionForm = () => {
+    const { addTransaction } = useContext(TrackerContext);
+
     const [description, setDescription] = useState('');
     const [sum, setSum] = useState('');
 
