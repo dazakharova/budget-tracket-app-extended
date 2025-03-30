@@ -17,11 +17,12 @@ export default function TrackerContextProvider({ children }) {
     const [currency, setCurrency] = useState('EUR');
     const [theme, setTheme] = useState('light');
 
-    const addTransaction = (id, description, sum) => {
+    const addTransaction = (id, description, sum, category) => {
         const newTransaction = {
             id: id,
             description: description,
-            sum: sum
+            sum: sum,
+            category: category,
         }
 
         const updatedTransactions = [...transactions, newTransaction]

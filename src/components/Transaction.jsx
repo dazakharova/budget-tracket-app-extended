@@ -22,11 +22,16 @@ const Transaction = ({data}) => {
         return (
             <>
                 <Confirmation ref={dialog} onConfirm={handleTransactionRemoval} />
-                <li className='expense'>
-                    <p>{data.description}</p>
-                    <p>{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
-                    <p><button onClick={handleConfirmation}>remove</button></p>
-                </li>
+              <li className='expense'>
+                <div className="transaction-main">
+                  <p className="description">{data.description}</p>
+                  <p className="amount">{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
+                  <p><button onClick={handleConfirmation}>remove</button></p>
+                </div>
+                <div className="category-wrapper">
+                  <span className="category-tag">{data.category}</span>
+                </div>
+              </li>
             </>
         )
     }
@@ -35,9 +40,14 @@ const Transaction = ({data}) => {
         <>
             <Confirmation ref={dialog} onConfirm={handleTransactionRemoval} />
             <li className='income'>
-                <p>{data.description}</p>
-                <p>{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
+              <div className="transaction-main">
+                <p className="description">{data.description}</p>
+                <p className="amount">{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
                 <p><button onClick={handleConfirmation}>remove</button></p>
+              </div>
+              <div className="category-wrapper">
+                <span className="category-tag">{data.category}</span>
+              </div>
             </li>
         </>
     )

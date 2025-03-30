@@ -13,6 +13,9 @@ const TransactionForm = () => {
 
     const [description, setDescription] = useState('');
     const [sum, setSum] = useState('');
+    const [category, setCategory] = useState('salary');
+
+    const categoryOptions = ['salary', 'food', 'gasoline', 'candies', 'electricity/utilities', 'rent', 'entertainment', 'health', 'shopping', 'other' ]
 
     const handleDescriptionChange = (event) => {
         event.preventDefault();
@@ -33,7 +36,7 @@ const TransactionForm = () => {
         console.log('submit pressed')
         const id = Date.now();
 
-        addTransaction(id, description, sum)
+        addTransaction(id, description, sum, category)
     }
     
     return (
@@ -44,6 +47,12 @@ const TransactionForm = () => {
                 <label htmlFor='sum'>Sum:</label>
                 <input ref={amountRef} id='sum' type='text' onChange={handleSumChange} />
                 <button type='submit'>Add Transaction</button>
+                <label htmlFor='category'>Category: </label>
+                <select id='category' value={category} onChange={e => setCategory(e.target.value)}>
+                    {categoryOptions.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                    ))}
+                </select>
             </form> 
         </div>
     )

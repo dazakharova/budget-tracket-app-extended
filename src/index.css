@@ -65,11 +65,15 @@ label {
   text-align: left;
 }
 
-input {
+input, select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+}
+
+select {
+  font-size: 16px;
 }
 
 button {
@@ -99,6 +103,7 @@ button:hover {
   border-radius: 5px;
   margin-bottom: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
@@ -115,3 +120,41 @@ button:hover {
 #transaction-list li.expense {
   border-left: 5px solid #e74c3c;
 }
+
+.transaction-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.description {
+  font-weight: bold;
+  margin: 0;
+}
+
+.amount {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.category-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.category-tag {
+  background-color: #ddd;
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.container-dark .category-tag {
+  background-color: #666;
+  color: #f1f1f1;
+}
+
