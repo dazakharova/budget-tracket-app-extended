@@ -20,7 +20,7 @@ function App() {
           <h2>Budget Tracker</h2>
           <div className='balance-box'>
             <h3>Saldo</h3>
-            <p id='balance'>{saldo} €</p>
+            <p id='balance'>{saldo} {currency === 'EUR' ? '€' : '$'}</p>
           </div>
           <TransactionForm />
           <TransactionList />

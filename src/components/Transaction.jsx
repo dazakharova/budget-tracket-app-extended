@@ -36,7 +36,7 @@ const Transaction = ({data}) => {
             <Confirmation ref={dialog} onConfirm={handleTransactionRemoval} />
             <li className='income'>
                 <p>{data.description}</p>
-                <p>{data.sum} €</p>
+                <p>{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
                 <p><button onClick={handleConfirmation}>remove</button></p>
             </li>
         </>
