@@ -1,5 +1,4 @@
-import {createContext, useEffect, useState} from 'react'
-import transactionsList from "../data/transactions.js";
+import {createContext, useEffect, useReducer} from 'react'
 
 export const TrackerContext = createContext({
     transactions: [],
@@ -11,82 +10,123 @@ export const TrackerContext = createContext({
     changeSettings: () => {},
 })
 
+const trackerReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TRANSACTION': {
+            const newTransaction = {
+                id: action.payload.id,
+                description: action.payload.description,
+                sum: action.payload.sum,
+                category: action.payload.category,
+            }
+
+            const updatedTransactions = [...state.transactions, newTransaction]
+            return {
+                ...state,
+                transactions: updatedTransactions,
+            }
+        }
+        case 'REMOVE_TRANSACTION': {
+            const updatedTransactions = [...state.transactions].filter(tr => tr.id !== action.payload.id);
+            return {
+                ...state,
+                transactions: updatedTransactions,
+            }
+        }
+        case 'CALCULATE_SALDO': {
+            const newSaldo = state.transactions.map((item) => parseFloat(item.sum)).reduce((acc, curr) => acc + curr, 0);
+            return {
+                ...state,
+                saldo: newSaldo.toFixed(2),
+            }
+        }
+        case 'CHANGE_SETTINGS': {
+            let updatedTransactions = [...state.transactions]
+            if (action.payload.newCurrency !== state.currency) {
+                const currencyRates = {
+                    EUR: 1,
+                    USD: 1.1,
+                    GBP: 0.85,
+                }
+
+                const rateFrom = currencyRates[state.currency]
+                const rateTo = currencyRates[action.payload.newCurrency]
+
+                const conversionRate = rateTo / rateFrom
+
+                updatedTransactions = state.transactions.map((transaction) => {
+                    const convertedSum = (parseFloat(transaction.sum) * conversionRate).toFixed(2).toString()
+                    return {
+                        ...transaction,
+                        sum: convertedSum,
+                    }
+                })
+            }
+
+            return {
+                ...state,
+                transactions: updatedTransactions,
+                currency: action.payload.newCurrency,
+                theme: action.payload.newTheme,
+            }
+        }
+    }
+
+    return state
+}
+
 export default function TrackerContextProvider({ children }) {
-    const [transactions, setTransactions] = useState(transactionsList);
-    const [saldo, setSaldo] = useState(0);
-    const [currency, setCurrency] = useState('EUR');
-    const [theme, setTheme] = useState('light');
+    const [ trackerState, trackerDispatch ] = useReducer(trackerReducer, {
+        transactions: [],
+        saldo: 0,
+        currency: 'EUR',
+        theme: 'light',
+    })
+
 
     const addTransaction = (id, description, sum, category) => {
-        const newTransaction = {
-            id: id,
-            description: description,
-            sum: sum,
-            category: category,
-        }
-
-        const updatedTransactions = [...transactions, newTransaction]
-        setTransactions(updatedTransactions)
-        transactionsList.push(newTransaction)
+        trackerDispatch({
+            type: 'ADD_TRANSACTION',
+            payload: { id, description, sum, category }
+        })
     }
 
     const removeTransaction = (id) => {
-        const updatedTransactions = [...transactions].filter(tr => tr.id !== id);
-        setTransactions(updatedTransactions);
-
-        const index = transactionsList.findIndex(tr => tr.id === id);
-        transactionsList.splice(index, 1);
-    }
-
-    const calculateSaldo = (transactions) => {
-        const newSaldo = transactions.map((item) => parseFloat(item.sum)).reduce((acc, curr) => acc + curr, 0);
-        return newSaldo.toFixed(2);
-    }
-
-    const recalculateCost = (prevCurrency, newCurrency) => {
-        const currencyRates = {
-            EUR: 1,
-            USD: 1.1,
-            GBP: 0.85,
-        }
-
-        const rateFrom = currencyRates[prevCurrency]
-        const rateTo = currencyRates[newCurrency]
-
-        const conversionRate = rateTo / rateFrom
-
-        const updatedTransactions = transactions.map((transaction) => {
-            const convertedSum = (parseFloat(transaction.sum) * conversionRate).toFixed(2).toString()
-            return {
-                ...transaction,
-                sum: convertedSum,
-            }
+        trackerDispatch({
+            type: 'REMOVE_TRANSACTION',
+            payload: { id }
         })
+    }
 
-        setTransactions(updatedTransactions)
+    const calculateSaldo = () => {
+        trackerDispatch({
+            type: 'CALCULATE_SALDO'
+        })
     }
 
     const changeSettings = (newCurrency, newTheme) => {
-        if (newCurrency !== currency) {
-            recalculateCost(currency, newCurrency)
-        }
-        setCurrency(newCurrency)
-        setTheme(newTheme)
+        trackerDispatch({
+            type: 'CHANGE_SETTINGS',
+            payload: {
+                newCurrency: newCurrency,
+                newTheme: newTheme,
+            }
+        })
     }
 
     useEffect(() => {
-        const newSaldo = calculateSaldo(transactions);
-        console.log('newSaldo is ', newSaldo)
-        setSaldo(newSaldo)
-    }, [transactions])
+        if (trackerState.transactions) {
+            calculateSaldo(trackerState.transactions);
+        }
+    }, [trackerState.transactions])
 
     const ctxValue = {
-        transactions: transactions,
-        saldo: saldo,
+        transactions: trackerState.transactions,
+        saldo: trackerState.saldo,
         addTransaction: addTransaction,
         removeTransaction: removeTransaction,
-        currency: currency,
-        theme: theme,
+        currency: trackerState.currency,
+        theme: trackerState.theme,
         changeSettings: changeSettings,
     }
 

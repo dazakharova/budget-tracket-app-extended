@@ -8,7 +8,7 @@ const TransactionList = () => {
         <div>
             <h3>Transactions</h3>
             <ul id='transaction-list'>
-            {trackerCtx.transactions.map((tr, i) => <Transaction key={i} data={tr} />)}
+            {trackerCtx.transactions && trackerCtx.transactions.map((tr, i) => <Transaction key={i} data={tr} />)}
             </ul>
         </div>
     )
