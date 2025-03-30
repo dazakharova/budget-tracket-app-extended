@@ -29,11 +29,11 @@ const Confirmation = forwardRef(
           })
     
         return createPortal(
-            <dialog ref={dialog}>
+            <dialog className="confirmation" ref={dialog}>
                 <h2>Are you sure you want to delete this item?</h2>
                 <form method='dialog'>
-                    <button type='button' onClick={handleYesClick}>Yes</button>
-                    <button type='button' onClick={handleNoClick}>No</button>
+                    <button className="confirmation-buttons" type='button' onClick={handleYesClick}>Yes</button>
+                    <button className="confirmation-buttons" type='button' onClick={handleNoClick}>No</button>
                 </form>
             </dialog>,
             document.getElementById('modal')
