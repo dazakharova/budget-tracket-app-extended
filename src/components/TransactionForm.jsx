@@ -1,8 +1,15 @@
-import { useState, useContext } from 'react';
+import {useState, useContext, useRef, useEffect} from 'react';
 import { TrackerContext } from '../store/tracker-context.jsx';
 
 const TransactionForm = () => {
     const { addTransaction } = useContext(TrackerContext);
+    const descriptionRef = useRef(null)
+    const amountRef = useRef(null)
+
+    useEffect(() => {
+        descriptionRef.current?.focus()
+        amountRef.current?.focus()
+    }, [])
 
     const [description, setDescription] = useState('');
     const [sum, setSum] = useState('');
@@ -33,9 +40,9 @@ const TransactionForm = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='description'>Description:</label>
-                <input id='description' type='text' onChange={handleDescriptionChange} />
+                <input ref={descriptionRef} id='description' type='text' onChange={handleDescriptionChange} />
                 <label htmlFor='sum'>Sum:</label>
-                <input id='sum' type='text' onChange={handleSumChange} />
+                <input ref={amountRef} id='sum' type='text' onChange={handleSumChange} />
                 <button type='submit'>Add Transaction</button>
             </form> 
         </div>
