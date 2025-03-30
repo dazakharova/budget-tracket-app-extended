@@ -1,16 +1,15 @@
-import {useImperativeHandle, useRef, useState} from 'react'
+import {useContext, useImperativeHandle, useRef, useState} from 'react'
+import { TrackerContext } from '../store/tracker-context.jsx'
 
 const SettingsDialog = ({ ref }) => {
+  const { currency, theme, changeSettings } = useContext(TrackerContext)
   const dialog = useRef()
 
-  const [currency, setCurrency] = useState('EUR')
-  const [theme, setTheme] = useState('light')
+  const [selectedCurrency, setSelectedCurrency] = useState(currency)
+  const [selectedTheme, setSelectedTheme] = useState(theme)
 
-  const currencyOptions = ['EUR', 'USD', 'GBP']
+  const currencyOptions = ['EUR', 'USD']
   const themeOptions = ['light', 'dark']
-
-  const initialCurrency = 'EUR'
-  const initialTheme = 'light'
 
   useImperativeHandle(ref, () => {
     return {
@@ -21,12 +20,20 @@ const SettingsDialog = ({ ref }) => {
   })
 
   const handleRevert = () => {
-    setCurrency(initialCurrency)
-    setTheme(initialTheme)
-    dialog.current.close()
+    if (selectedCurrency === currency && selectedTheme === theme) {
+      return
+    }
+
+    setSelectedCurrency(currency)
+    setSelectedTheme(theme)
   }
 
   const handleSave = () => {
+    if (selectedCurrency === currency && selectedTheme === theme) {
+      dialog.current.close()
+    }
+
+    changeSettings(selectedCurrency, selectedTheme)
     dialog.current.close()
   }
 
@@ -36,7 +43,7 @@ const SettingsDialog = ({ ref }) => {
         <h3>Settings</h3>
         <div>
           <label>Currency:</label>
-          <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+          <select value={selectedCurrency} onChange={e => setSelectedCurrency(e.target.value)}>
             {currencyOptions.map((cur) => (
                 <option key={cur} value={cur}>{cur}</option>
             ))}
@@ -44,7 +51,7 @@ const SettingsDialog = ({ ref }) => {
         </div>
         <div>
           <label>Theme:</label>
-          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <select value={selectedTheme} onChange={e => setSelectedTheme(e.target.value)}>
             {themeOptions.map((t) => (
                 <option key={t} value={t}>{t}</option>
             ))}

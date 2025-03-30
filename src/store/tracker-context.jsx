@@ -6,11 +6,16 @@ export const TrackerContext = createContext({
     saldo: 0,
     addTransaction: () => {},
     removeTransaction: () => {},
+    currency: '',
+    theme: '',
+    changeSettings: () => {},
 })
 
 export default function TrackerContextProvider({ children }) {
     const [transactions, setTransactions] = useState(transactionsList);
     const [saldo, setSaldo] = useState(0);
+    const [currency, setCurrency] = useState('EUR');
+    const [theme, setTheme] = useState('light');
 
     const addTransaction = (id, description, sum) => {
         const newTransaction = {
@@ -37,6 +42,37 @@ export default function TrackerContextProvider({ children }) {
         return newSaldo
     }
 
+    const recalculateCost = (prevCurrency, newCurrency) => {
+        const currencyRates = {
+            EUR: 1,
+            USD: 1.1,
+            GBP: 0.85,
+        }
+
+        const rateFrom = currencyRates[prevCurrency]
+        const rateTo = currencyRates[newCurrency]
+
+        const conversionRate = rateTo / rateFrom
+
+        const updatedTransactions = transactions.map((transaction) => {
+            const convertedSum = (parseFloat(transaction.sum) * conversionRate).toFixed(2).toString()
+            return {
+                ...transaction,
+                sum: convertedSum,
+            }
+        })
+
+        setTransactions(updatedTransactions)
+    }
+
+    const changeSettings = (newCurrency, newTheme) => {
+        if (newCurrency !== currency) {
+            recalculateCost(currency, newCurrency)
+        }
+        setCurrency(newCurrency)
+        setTheme(newTheme)
+    }
+
     useEffect(() => {
         const newSaldo = calculateSaldo(transactions);
         console.log('newSaldo is ', newSaldo)
@@ -48,6 +84,9 @@ export default function TrackerContextProvider({ children }) {
         saldo: saldo,
         addTransaction: addTransaction,
         removeTransaction: removeTransaction,
+        currency: currency,
+        theme: theme,
+        changeSettings: changeSettings,
     }
 
     return <TrackerContext.Provider value={ctxValue}>{children}</TrackerContext.Provider>;

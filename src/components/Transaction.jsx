@@ -3,7 +3,7 @@ import { TrackerContext } from '../store/tracker-context.jsx'
 import Confirmation from './Confirmation'
 
 const Transaction = ({data}) => {
-  const { removeTransaction } = useContext(TrackerContext)
+  const { removeTransaction, currency } = useContext(TrackerContext)
     const dialog = useRef()
 
     const handleTransactionRemoval = () => {
@@ -24,7 +24,7 @@ const Transaction = ({data}) => {
                 <Confirmation ref={dialog} onConfirm={handleTransactionRemoval} />
                 <li className='expense'>
                     <p>{data.description}</p>
-                    <p>{data.sum} €</p>
+                    <p>{data.sum} {currency === 'EUR' ? '€' : '$'}</p>
                     <p><button onClick={handleConfirmation}>remove</button></p>
                 </li>
             </>

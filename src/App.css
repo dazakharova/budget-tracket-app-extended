@@ -100,3 +100,10 @@ dialog {
 .setting h3 {
   margin: 0;
 }
+
+.control-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
