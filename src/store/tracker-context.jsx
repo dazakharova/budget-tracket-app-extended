@@ -38,8 +38,8 @@ export default function TrackerContextProvider({ children }) {
     }
 
     const calculateSaldo = (transactions) => {
-        const newSaldo = transactions.map((item) => parseInt(item.sum)).reduce((acc, curr) => acc + curr, 0);
-        return newSaldo
+        const newSaldo = transactions.map((item) => parseFloat(item.sum)).reduce((acc, curr) => acc + curr, 0);
+        return newSaldo.toFixed(2);
     }
 
     const recalculateCost = (prevCurrency, newCurrency) => {
