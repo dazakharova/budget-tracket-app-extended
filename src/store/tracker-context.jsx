@@ -17,7 +17,7 @@ const trackerReducer = (state, action) => {
                 id: action.payload.id,
                 type: action.payload.type,
                 description: action.payload.description,
-                sum: action.payload.sum,
+                amount: action.payload.amount,
                 category: action.payload.category,
             }
 
@@ -56,10 +56,10 @@ const trackerReducer = (state, action) => {
                 const conversionRate = rateTo / rateFrom
 
                 updatedTransactions = state.transactions.map((transaction) => {
-                    const convertedSum = (parseFloat(transaction.sum) * conversionRate).toFixed(2).toString()
+                    const convertedSum = (parseFloat(transaction.amount) * conversionRate).toFixed(2).toString()
                     return {
                         ...transaction,
-                        sum: convertedSum,
+                        amount: convertedSum,
                     }
                 })
             }
