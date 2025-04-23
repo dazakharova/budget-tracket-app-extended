@@ -15,6 +15,7 @@ const trackerReducer = (state, action) => {
         case 'ADD_TRANSACTION': {
             const newTransaction = {
                 id: action.payload.id,
+                type: action.payload.type,
                 description: action.payload.description,
                 sum: action.payload.sum,
                 category: action.payload.category,
@@ -84,10 +85,10 @@ export default function TrackerContextProvider({ children }) {
     })
 
 
-    const addTransaction = (id, description, sum, category) => {
+    const addTransaction = (transaction) => {
         trackerDispatch({
             type: 'ADD_TRANSACTION',
-            payload: { id, description, sum, category }
+            payload: transaction,
         })
     }
 

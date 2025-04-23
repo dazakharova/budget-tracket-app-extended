@@ -12,7 +12,7 @@ const TransactionForm = () => {
     }, [])
 
     const [description, setDescription] = useState('');
-    const [sum, setSum] = useState('');
+    const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('salary');
 
     const categoryOptions = ['salary', 'food', 'gasoline', 'candies', 'electricity/utilities', 'rent', 'entertainment', 'health', 'shopping', 'other' ]
@@ -27,16 +27,22 @@ const TransactionForm = () => {
         event.preventDefault();
 
         if (/^-?\d*\.?\d*$/.test(event.target.value) || event.target.value == '') {
-            setSum(event.target.value);
+            setAmount(event.target.value);
         }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('submit pressed')
-        const id = Date.now();
+        const transaction = {
+            id: Math.random(),
+            type: parseFloat(amount) > 0 ? 'income' : 'expense',
+            description: description,
+            amount: parseFloat(amount),
+            category: category,
+        }
 
-        addTransaction(id, description, sum, category)
+        addTransaction(transaction);
     }
     
     return (
