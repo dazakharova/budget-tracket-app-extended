@@ -1,4 +1,5 @@
 import {createContext, useEffect, useReducer} from 'react'
+import { fetchAllTransactions, createNewTransaction, deleteTransaction, updateTransactionDetails } from '../http.js'
 
 export const TrackerContext = createContext({
     transactions: [],
@@ -13,6 +14,12 @@ export const TrackerContext = createContext({
 
 const trackerReducer = (state, action) => {
     switch (action.type) {
+        case 'ADD_TRANSACTIONS': {
+            return {
+                ...state,
+                transactions: [...action.payload.transactions]
+            }
+        }
         case 'ADD_TRANSACTION': {
             const newTransaction = {
                 id: action.payload.id,
@@ -92,25 +99,46 @@ export default function TrackerContextProvider({ children }) {
     })
 
 
-    const addTransaction = (transaction) => {
+    const addTransaction = async (transaction) => {
         trackerDispatch({
             type: 'ADD_TRANSACTION',
             payload: transaction,
         })
+
+        try {
+            await createNewTransaction(transaction);
+            console.log("ADDED TO DB SUCCESSFULLY")
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    const removeTransaction = (id) => {
+    const removeTransaction = async (id) => {
         trackerDispatch({
             type: 'REMOVE_TRANSACTION',
             payload: { id }
         })
+
+        try {
+            await deleteTransaction(id);
+            console.log("DELETED TRANSACTION SUCCESSFULLY")
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    const updateTransaction = (transaction) => {
+    const updateTransaction = async (transaction) => {
         trackerDispatch({
             type: 'UPDATE_TRANSACTION',
             payload: transaction,
         })
+
+        try {
+            await updateTransactionDetails(transaction);
+            console.log("UPDATED TRANSACTION SUCCESSFULLY")
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const calculateSaldo = () => {
@@ -129,11 +157,34 @@ export default function TrackerContextProvider({ children }) {
         })
     }
 
+    const addTransactions = (transactions) => {
+        trackerDispatch({
+            type: 'ADD_TRANSACTIONS',
+            payload: {
+                transactions: transactions
+            }
+        })
+    }
+
     useEffect(() => {
         if (trackerState.transactions) {
             calculateSaldo(trackerState.transactions);
         }
     }, [trackerState.transactions])
+
+    useEffect(() => {
+        async function fetchTransactions() {
+            try {
+                const transactions = await fetchAllTransactions();
+                addTransactions(transactions)
+                console.log('Fetched transactions are: ', transactions)
+            } catch(error) {
+                console.log(error);
+            }
+        }
+
+        fetchTransactions()
+    }, [])
 
     const ctxValue = {
         transactions: trackerState.transactions,
