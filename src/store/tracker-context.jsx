@@ -27,6 +27,7 @@ const trackerReducer = (state, action) => {
                 description: action.payload.description,
                 amount: action.payload.amount,
                 category: action.payload.category,
+                date: action.payload.date,
             }
 
             const updatedTransactions = [...state.transactions, newTransaction]

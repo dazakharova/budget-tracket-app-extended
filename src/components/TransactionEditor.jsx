@@ -22,6 +22,7 @@ const TransactionEditor = ({ transaction, setEditing }) => {
       description: description,
       amount: parseFloat(amount),
       category: category,
+      date: transaction.date,
     }
 
     updateTransaction(updatedTransaction)

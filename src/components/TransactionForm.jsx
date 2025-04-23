@@ -34,12 +34,15 @@ const TransactionForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('submit pressed')
+        const date = new Date();
+        const formattedDate = date.toISOString().slice(0, 10);
         const transaction = {
             id: Math.random(),
             type: parseFloat(amount) > 0 ? 'income' : 'expense',
             description: description,
             amount: parseFloat(amount),
             category: category,
+            date: formattedDate
         }
 
         addTransaction(transaction);

@@ -21,7 +21,8 @@ db.serialize(() => {
       type TEXT,
       description TEXT,
       amount REAL,
-      category TEXT
+      category TEXT,
+      date TEXT                                      
     )
   `);
 });
