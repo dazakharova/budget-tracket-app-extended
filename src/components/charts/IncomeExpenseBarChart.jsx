@@ -13,36 +13,52 @@ import { TrackerContext } from '../../store/tracker-context.jsx';
 const IncomeExpenseBarChart = () => {
   const { transactions } = use(TrackerContext);
 
-  let income = 0;
-  let expense = 0;
+  const grouped = {};
 
   transactions.forEach((t) => {
+    if (!t.date) return;
+
+    const dateObj = new Date(t.date);
+    const monthKey = t.date.slice(0, 7); // "2025-04"
+
+    if (!grouped[monthKey]) {
+      grouped[monthKey] = {
+        month: dateObj.toLocaleString('default', { month: 'short', year: 'numeric' }),
+        income: 0,
+        expense: 0,
+      };
+    }
+
+    const amount = Math.abs(parseFloat(t.amount));
+
     if (t.type === 'income') {
-      income += parseFloat(t.amount);
+      grouped[monthKey].income += amount;
     } else if (t.type === 'expense') {
-      expense += Math.abs(parseFloat(t.amount));
+      grouped[monthKey].expense += amount;
     }
   });
 
-  const data = [
-    {
-      name: 'Total',
-      income,
-      expense,
-    },
-  ];
+  const data = Object.entries(grouped)
+      .sort(([a], [b]) => new Date(a + '-01') - new Date(b + '-01'))
+      .map(([, value]) => value);
+
+  if (data.length === 0) {
+    return <p>No data to display</p>;
+  }
 
   return (
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="income" name="Income" fill="#82ca9d" />
-          <Bar dataKey="expense" name="Expense" fill="#ff8042" />
-        </BarChart>
-      </ResponsiveContainer>
+      <div style={{ height: '300px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data}>
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="income" name="Income" fill="#82ca9d" />
+            <Bar dataKey="expense" name="Expense" fill="#ff8042" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
   );
 };
 
