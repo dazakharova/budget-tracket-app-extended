@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import { TrackerContext } from '../store/tracker-context'
 import TransactionForm from './TransactionForm'
 
 describe('TransactionForm', () => {
-  it('calls addTransaction when form is submitted', async () => {
+  test('calls addTransaction when form is submitted', async () => {
     const addTransactionMock = vi.fn()
 
     render(
@@ -27,5 +27,18 @@ describe('TransactionForm', () => {
           category: 'salary',
         })
     )
+  })
+
+  test('renders all required fields', () => {
+    render(
+        <TrackerContext.Provider value={{ addTransaction: () => {} }}>
+          <TransactionForm />
+        </TrackerContext.Provider>
+    )
+
+    expect(screen.getByLabelText(/description/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/sum/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/category/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /add transaction/i })).toBeInTheDocument()
   })
 })
