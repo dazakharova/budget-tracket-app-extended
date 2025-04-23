@@ -11,6 +11,11 @@ const TransactionEditor = ({ transaction, setEditing }) => {
   const handleUpdate = (event) => {
     event.preventDefault()
 
+    if (transaction.description === description && transaction.amount === amount && transaction.category === category) {
+      setEditing(false)
+      return
+    }
+
     const updatedTransaction = {
       id: transaction.id,
       type: parseFloat(amount) > 0 ? 'income' : 'expense',
