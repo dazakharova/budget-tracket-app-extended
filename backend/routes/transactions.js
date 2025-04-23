@@ -11,14 +11,18 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { id, type, description, amount, category } = req.body;
-  const query = 'INSERT INTO transactions (id, type, description, amount, category) VALUES (?, ?, ?, ?, ?)';
-  db.run(query, [id, type, description, amount, category], function (err) {
+  const { id, type, description, amount, category, date } = req.body;
+
+  const query = `
+    INSERT INTO transactions (id, type, description, amount, category, date)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.run(query, [id, type, description, amount, category, date], function (err) {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Transaction added' });
   });
 });
-
 
 router.delete('/', (req, res) => {
   const { id } = req.body;
@@ -29,9 +33,15 @@ router.delete('/', (req, res) => {
 });
 
 router.put('/', (req, res) => {
-  const { id, type, description, amount, category } = req.body;
-  const query = 'UPDATE transactions SET type = ?, description = ?, amount = ?, category = ? WHERE id = ?';
-  db.run(query, [type, description, amount, category, id], function (err) {
+  const { id, type, description, amount, category, date } = req.body;
+
+  const query = `
+    UPDATE transactions
+    SET type = ?, description = ?, amount = ?, category = ?, date = ?
+    WHERE id = ?
+  `;
+
+  db.run(query, [type, description, amount, category, date, id], function (err) {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Transaction updated' });
   });
