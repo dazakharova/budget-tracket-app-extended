@@ -1,5 +1,7 @@
 import path from "path";
-import {verbose} from "sqlite3";
+import pkg from 'sqlite3';
+const {verbose} = pkg;
+
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
