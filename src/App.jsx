@@ -2,6 +2,7 @@ import { TrackerContext } from './store/tracker-context.jsx'
 import TransactionList from './components/TransactionList'
 import TransactionForm from './components/TransactionForm.jsx'
 import ExpensePieChart from './components/charts/ExpensePieChart.jsx'
+import IncomeExpenseBarChart from './components/charts/IncomeExpenseBarChart.jsx'
 import Settings from './components/Settings'
 import './App.css'
 import {useContext} from "react";
@@ -26,8 +27,9 @@ function App() {
           <TransactionForm />
           <TransactionList />
         </div>
-        <div>
+        <div className='charts-container'>
           <ExpensePieChart />
+          <IncomeExpenseBarChart />
         </div>
       </>
   )
