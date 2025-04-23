@@ -36,7 +36,7 @@ const trackerReducer = (state, action) => {
             }
         }
         case 'CALCULATE_SALDO': {
-            const newSaldo = state.transactions.map((item) => parseFloat(item.sum)).reduce((acc, curr) => acc + curr, 0);
+            const newSaldo = state.transactions.map((item) => item.amount).reduce((acc, curr) => acc + curr, 0);
             return {
                 ...state,
                 saldo: newSaldo.toFixed(2),
@@ -57,7 +57,7 @@ const trackerReducer = (state, action) => {
                 const conversionRate = rateTo / rateFrom
 
                 updatedTransactions = state.transactions.map((transaction) => {
-                    const convertedSum = (parseFloat(transaction.amount) * conversionRate).toFixed(2).toString()
+                    const convertedSum = (transaction.amount * conversionRate).toFixed(2).toString()
                     return {
                         ...transaction,
                         amount: convertedSum,
