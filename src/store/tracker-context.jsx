@@ -5,6 +5,7 @@ export const TrackerContext = createContext({
     saldo: 0,
     addTransaction: () => {},
     removeTransaction: () => {},
+    updateTransaction: () => {},
     currency: '',
     theme: '',
     changeSettings: () => {},
@@ -71,6 +72,12 @@ const trackerReducer = (state, action) => {
                 theme: action.payload.newTheme,
             }
         }
+        case 'UPDATE_TRANSACTION': {
+            return {
+                ...state,
+                transactions: state.transactions.map(transaction => transaction.id === action.payload.id ? action.payload : transaction)
+            }
+        }
     }
 
     return state
@@ -96,6 +103,13 @@ export default function TrackerContextProvider({ children }) {
         trackerDispatch({
             type: 'REMOVE_TRANSACTION',
             payload: { id }
+        })
+    }
+
+    const updateTransaction = (transaction) => {
+        trackerDispatch({
+            type: 'UPDATE_TRANSACTION',
+            payload: transaction,
         })
     }
 
@@ -126,6 +140,7 @@ export default function TrackerContextProvider({ children }) {
         saldo: trackerState.saldo,
         addTransaction: addTransaction,
         removeTransaction: removeTransaction,
+        updateTransaction: updateTransaction,
         currency: trackerState.currency,
         theme: trackerState.theme,
         changeSettings: changeSettings,
