@@ -23,4 +23,15 @@ describe('TransactionList component', () => {
     const listItems = screen.getAllByRole('listitem')
     expect(listItems).toHaveLength(testTransactions.length)
   })
+
+  test('shows empty state message when there are no transactions', () => {
+    render(
+        <TrackerContext.Provider value={{ transactions: [] }}>
+          <TransactionList />
+        </TrackerContext.Provider>
+    )
+
+    expect(screen.queryByText(/no transactions yet/i)).toBeInTheDocument()
+    expect(screen.queryAllByRole('listitem')).toHaveLength(0)
+  })
 })
