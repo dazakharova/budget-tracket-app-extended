@@ -161,3 +161,9 @@ button:hover {
 .editor-container input {
   width: 100%;
 }
+
+.filter-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

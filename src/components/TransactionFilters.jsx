@@ -1,11 +1,27 @@
-import { useContext } from 'react';
-import { TrackerContext } from '../store/tracker-context.jsx';
+import {useState} from 'react';
 
-const TransactionFilters = ({ showFilters }) => {
-  const { transactions } = useContext(TrackerContext);
-  console.log(transactions);
+const TransactionFilters = ({ showFilters, setFilters }) => {
 
-  const handleSubmit = () => {
+  const [type, setType] = useState('');
+  const [category, setCategory] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [minAmount, setMinAmount] = useState('');
+  const [maxAmount, setMaxAmount] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const filters = {
+      type,
+      category,
+      startDate,
+      endDate,
+      minAmount,
+      maxAmount,
+    };
+
+    setFilters(filters);
     showFilters(false);
   }
 
@@ -17,7 +33,7 @@ const TransactionFilters = ({ showFilters }) => {
         <label htmlFor="type">
           Type:
         </label>
-        <select id="type" name="type">
+        <select onChange={(event) => setType(event.target.value)} id="type" name="type">
           <option value="">All</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
@@ -26,7 +42,7 @@ const TransactionFilters = ({ showFilters }) => {
         <label htmlFor="category">
           Category:
         </label>
-        <select name="category">
+        <select onChange={(event) => setCategory(event.target.value)} name="category">
           <option value="">All</option>
           <option value="salary">Salary</option>
           <option value="food">Food</option>
@@ -37,20 +53,20 @@ const TransactionFilters = ({ showFilters }) => {
         <label htmlFor="startDate">
           From:
         </label>
-        <input id="startDate" type="date" name="startDate" />
+        <input onChange={(event) => setStartDate(event.target.value)} id="startDate" type="date" name="startDate" />
         <label htmlFor="endDate">
           To:
         </label>
-        <input id="endDate" type="date" name="endDate" />
+        <input onChange={(event) => setEndDate(event.target.value)} id="endDate" type="date" name="endDate" />
 
         <label htmlFor="minAmount">
           Min Amount:
         </label>
-        <input id="minAmount" type="number" name="minAmount" />
+        <input onChange={(event) => setMinAmount(event.target.value)} id="minAmount" type="number" name="minAmount" />
         <label htmlFor="maxAmount">
           Max Amount:
         </label>
-        <input id="maxAmount" type="number" name="maxAmount" />
+        <input onChange={(event) => setMaxAmount(event.target.value)} id="maxAmount" type="number" name="maxAmount" />
 
         <button type="submit">Apply Filters</button>
       </form>
