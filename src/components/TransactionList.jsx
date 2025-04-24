@@ -2,6 +2,7 @@ import { use, useState } from 'react'
 import Transaction from './Transaction';
 import { TrackerContext } from '../store/tracker-context';
 import TransactionFilters from "./TransactionFilters.jsx";
+import ExportCSV from './ExportCSV.jsx';
 
 const TransactionList = () => {
     const trackerCtx = use(TrackerContext)
@@ -46,6 +47,7 @@ const TransactionList = () => {
           <ul id='transaction-list'>
             {filtered && filtered.map((tr, i) => <Transaction key={i} data={tr} />)}
           </ul>
+          <ExportCSV />
         </div>
     )
 }
