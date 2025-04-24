@@ -14,43 +14,43 @@ const TransactionFilters = ({ showFilters }) => {
       <form onSubmit={handleSubmit} className="filter-panel">
         <h3>Filter Transactions</h3>
 
-        <label>
+        <label htmlFor="type">
           Type:
-          <select name="type">
-            <option value="">All</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
         </label>
+        <select id="type" name="type">
+          <option value="">All</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
 
-        <label>
+        <label htmlFor="category">
           Category:
-          <select name="category">
-            <option value="">All</option>
-            <option value="salary">Salary</option>
-            <option value="food">Food</option>
-            <option value="rent">Rent</option>
-            <option value="entertainment">Entertainment</option>
-          </select>
         </label>
+        <select name="category">
+          <option value="">All</option>
+          <option value="salary">Salary</option>
+          <option value="food">Food</option>
+          <option value="rent">Rent</option>
+          <option value="entertainment">Entertainment</option>
+        </select>
 
-        <label>
+        <label htmlFor="startDate">
           From:
-          <input type="date" name="startDate" />
         </label>
-        <label>
+        <input id="startDate" type="date" name="startDate" />
+        <label htmlFor="endDate">
           To:
-          <input type="date" name="endDate" />
         </label>
+        <input id="endDate" type="date" name="endDate" />
 
-        <label>
+        <label htmlFor="minAmount">
           Min Amount:
-          <input type="number" name="minAmount" />
         </label>
-        <label>
+        <input id="minAmount" type="number" name="minAmount" />
+        <label htmlFor="maxAmount">
           Max Amount:
-          <input type="number" name="maxAmount" />
         </label>
+        <input id="maxAmount" type="number" name="maxAmount" />
 
         <button type="submit">Apply Filters</button>
       </form>
