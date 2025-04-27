@@ -22,76 +22,55 @@ describe('TransactionList integration', () => {
     );
   });
 
-  test('shows filters panel after clicking "Filter Transactions" button', async () => {
-
-    const filterButton = screen.getByRole('button', { name: /filter transactions/i });
-    expect(filterButton).toBeInTheDocument();
-
-    await userEvent.click(filterButton);
-
-    expect(screen.getByText(/filter transactions/i)).toBeInTheDocument();
+  test('shows filters panel', () => {
+    expect(screen.getByText('Type')).toBeInTheDocument();
+    expect(screen.getByText('Category')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Min Amount')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Max Amount')).toBeInTheDocument();
   });
 
   test('filters transactions by type (income)', async () => {
-    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+    await userEvent.selectOptions(screen.getByDisplayValue('Type'), 'income');
 
-    await userEvent.selectOptions(screen.getByLabelText(/type/i), 'income');
-    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
-
-    expect(screen.getByText('Salary')).toBeInTheDocument();
-    expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
-    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveTextContent('Salary');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Groceries');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Movie');
   });
 
   test('filters transactions by category (food)', async () => {
-    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+    await userEvent.selectOptions(screen.getByDisplayValue('Category'), 'food');
 
-    await userEvent.selectOptions(screen.getByLabelText(/category/i), 'food');
-    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
-
-    expect(screen.getByText('Groceries')).toBeInTheDocument();
-    expect(screen.queryByText('Salary')).not.toBeInTheDocument();
-    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveTextContent('Groceries');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Salary');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Movie');
   });
 
   test('filters transactions by min amount', async () => {
-    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+    await userEvent.type(screen.getByPlaceholderText('Min Amount'), '1000');
 
-    await userEvent.type(screen.getByLabelText(/min amount/i), '1000');
-    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
-
-    expect(screen.getByText('Salary')).toBeInTheDocument();
-    expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
-    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveTextContent('Salary');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Groceries');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Movie');
   });
 
   test('filters transactions by date range', async () => {
-    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+    await userEvent.type(screen.getByLabelText('start date'), '2025-04-01');
+    await userEvent.type(screen.getByLabelText('end date'), '2025-04-30');
 
-    await userEvent.type(screen.getByLabelText(/from/i), '2025-04-01');
-    await userEvent.type(screen.getByLabelText(/to/i), '2025-04-30');
-    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
-
-    expect(screen.getByText('Salary')).toBeInTheDocument();
-    expect(screen.getByText('Groceries')).toBeInTheDocument();
-    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveTextContent('Salary');
+    expect(screen.getByRole('list')).toHaveTextContent('Groceries');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Movie');
   });
 
   test('filters transactions by type, category, and date range together', async () => {
-    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+    await userEvent.selectOptions(screen.getByDisplayValue('Type'), 'expense');
+    await userEvent.selectOptions(screen.getByDisplayValue('Category'), 'food');
 
-    await userEvent.selectOptions(screen.getByLabelText(/type/i), 'expense');
+    await userEvent.type(screen.getByLabelText('start date'), '2025-04-01');
+    await userEvent.type(screen.getByLabelText('end date'), '2025-04-30');
 
-    await userEvent.selectOptions(screen.getByLabelText(/category/i), 'food');
-
-    await userEvent.type(screen.getByLabelText(/from/i), '2025-04-01');
-    await userEvent.type(screen.getByLabelText(/to/i), '2025-04-30');
-
-    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
-
-    expect(screen.getByText('Groceries')).toBeInTheDocument();
-    expect(screen.queryByText('Salary')).not.toBeInTheDocument();
-    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveTextContent('Groceries');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Salary');
+    expect(screen.getByRole('list')).not.toHaveTextContent('Movie');
   });
-
 });
