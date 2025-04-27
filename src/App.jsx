@@ -12,6 +12,7 @@ function App() {
   const { saldo, theme, currency} = useContext(TrackerContext)
 
   const containerClass = `container container-${theme}`
+  const chartsContainerClass = `charts-container container-${theme}`;
 
   return (
       <>
@@ -28,7 +29,7 @@ function App() {
           <TransactionForm />
           <TransactionList />
         </div>
-        <div className='charts-container'>
+        <div className={chartsContainerClass}>
           <ExpensePieChart />
           <IncomeExpenseBarChart />
           <IncomeExpenseLineChart />
