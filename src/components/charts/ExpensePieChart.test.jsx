@@ -27,4 +27,8 @@ describe('<ExpensePieChart />', () => {
     expect(screen.getByText('Transport')).toBeInTheDocument();
     expect(screen.getByText('Entertainment')).toBeInTheDocument();
   });
+
+  test('does not render incomes', () => {
+    expect(screen.queryByText('Salary')).not.toBeInTheDocument();
+  });
 });
