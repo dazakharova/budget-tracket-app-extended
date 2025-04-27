@@ -184,3 +184,8 @@ button:hover {
   color: #f1f1f1;
 }
 
+.charts-container > div {
+  margin-bottom: 2rem;
+}
+
+
