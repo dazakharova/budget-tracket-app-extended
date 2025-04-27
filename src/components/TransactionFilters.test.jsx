@@ -53,4 +53,15 @@ describe('TransactionList integration', () => {
     expect(screen.queryByText('Salary')).not.toBeInTheDocument();
     expect(screen.queryByText('Movie')).not.toBeInTheDocument();
   });
+
+  test('filters transactions by min amount', async () => {
+    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+
+    await userEvent.type(screen.getByLabelText(/min amount/i), '1000');
+    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
+
+    expect(screen.getByText('Salary')).toBeInTheDocument();
+    expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
+    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+  });
 });
