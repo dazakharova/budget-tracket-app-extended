@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/transactions';
+const BASE_URL = 'https://budget-tracket-app.onrender.com/transactions';
 
 export async function fetchAllTransactions() {
   const res = await fetch(BASE_URL);
