@@ -31,4 +31,15 @@ describe('TransactionList integration', () => {
 
     expect(screen.getByText(/filter transactions/i)).toBeInTheDocument();
   });
+
+  test('filters transactions by type (income)', async () => {
+    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+
+    await userEvent.selectOptions(screen.getByLabelText(/type/i), 'income');
+    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
+
+    expect(screen.getByText('Salary')).toBeInTheDocument();
+    expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
+    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+  });
 });
