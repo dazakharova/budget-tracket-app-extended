@@ -43,7 +43,7 @@ const IncomeExpenseLineChart = () => {
 
   return (
       <div style={{ height: '300px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <LineChart width={300} height={300} data={data} margin={{ top: 20, right: 20, bottom: 40 }} >
+        <LineChart width={350} height={300} data={data} margin={{ top: 20, right: 20, bottom: 40 }} >
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
