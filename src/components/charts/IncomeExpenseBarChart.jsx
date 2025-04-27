@@ -1,3 +1,6 @@
+
+
+
 import {
   BarChart,
   Bar,
@@ -5,7 +8,6 @@ import {
   YAxis,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from 'recharts';
 import { use } from 'react';
 import { TrackerContext } from '../../store/tracker-context.jsx';
@@ -19,7 +21,7 @@ const IncomeExpenseBarChart = () => {
     if (!t.date) return;
 
     const dateObj = new Date(t.date);
-    const monthKey = t.date.slice(0, 7); // "2025-04"
+    const monthKey = t.date.slice(0, 7);
 
     if (!grouped[monthKey]) {
       grouped[monthKey] = {
@@ -47,19 +49,18 @@ const IncomeExpenseBarChart = () => {
   }
 
   return (
-      <div style={{ height: '300px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="income" name="Income" fill="#82ca9d" />
-            <Bar dataKey="expense" name="Expense" fill="#ff8042" />
-          </BarChart>
-        </ResponsiveContainer>
+      <div style={{ height: '300px', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <BarChart width={300} height={300} data={data} margin={{ top: 20, right: 20, bottom: 40 }} >
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="income" name="Income" fill="#82ca9d" />
+          <Bar dataKey="expense" name="Expense" fill="#ff8042" />
+        </BarChart>
       </div>
   );
 };
 
 export default IncomeExpenseBarChart;
+
