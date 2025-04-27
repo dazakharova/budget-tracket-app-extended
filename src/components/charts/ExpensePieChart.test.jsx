@@ -31,4 +31,14 @@ describe('<ExpensePieChart />', () => {
   test('does not render incomes', () => {
     expect(screen.queryByText('Salary')).not.toBeInTheDocument();
   });
+
+  test('renders correct number of expense categories', () => {
+    const categoryElements = screen.getAllByRole('listitem');
+    expect(categoryElements.length).toBe(3);
+  });
+
+  test('renders correct number of expense categories', () => {
+    const categoryElements = screen.getAllByRole('listitem');
+    expect(categoryElements.length).toBe(3);
+  });
 });
