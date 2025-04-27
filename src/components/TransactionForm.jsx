@@ -44,6 +44,9 @@ const TransactionForm = () => {
             category: category,
             date: formattedDate
         }
+        setDescription('');
+        setAmount('');
+        setCategory('salary');
 
         addTransaction(transaction);
     }
@@ -52,16 +55,16 @@ const TransactionForm = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='description'>Description:</label>
-                <input ref={descriptionRef} id='description' type='text' onChange={handleDescriptionChange} />
+                <input ref={descriptionRef} id='description' type='text' value={description} onChange={handleDescriptionChange} />
                 <label htmlFor='sum'>Sum:</label>
-                <input ref={amountRef} id='sum' type='text' onChange={handleSumChange} />
-                <button type='submit'>Add Transaction</button>
+                <input ref={amountRef} id='sum' type='text' value={amount} onChange={handleSumChange} />
                 <label htmlFor='category'>Category: </label>
-                <select id='category' value={category} onChange={e => setCategory(e.target.value)}>
+                <select id='category' value={category} value={category} onChange={e => setCategory(e.target.value)}>
                     {categoryOptions.map((c) => (
                         <option key={c} value={c}>{c}</option>
                     ))}
                 </select>
+                <button type='submit'>Add Transaction</button>
             </form> 
         </div>
     )
