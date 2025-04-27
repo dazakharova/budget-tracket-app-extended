@@ -32,3 +32,15 @@ describe('<IncomeExpenseLineChart />', () => {
     expect(screen.getByText('Expense')).toBeInTheDocument();
   });
 });
+
+describe('<IncomeExpenseLineChart /> with no transactions', () => {
+  test('shows "No data to display" when there are no transactions', () => {
+    render(
+        <TrackerContext.Provider value={{ transactions: [] }}>
+          <IncomeExpenseLineChart />
+        </TrackerContext.Provider>
+    );
+
+    expect(screen.getByText('No data to display')).toBeInTheDocument();
+  });
+});
