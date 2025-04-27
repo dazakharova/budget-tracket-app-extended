@@ -1,77 +1,35 @@
-import {useState} from 'react';
-
-const TransactionFilters = ({ showFilters, setFilters }) => {
-
-  const [type, setType] = useState('');
-  const [category, setCategory] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [minAmount, setMinAmount] = useState('');
-  const [maxAmount, setMaxAmount] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const filters = {
-      type,
-      category,
-      startDate,
-      endDate,
-      minAmount,
-      maxAmount,
-    };
-
-    setFilters(filters);
-    showFilters(false);
-  }
-
+const TransactionFilters = ({ setFilters, resetFilters, filters }) => {
+  const handleChange = (key, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
 
   return (
-      <form onSubmit={handleSubmit} className="filter-panel">
-        <h3>Filter Transactions</h3>
-
-        <label htmlFor="type">
-          Type:
-        </label>
-        <select onChange={(event) => setType(event.target.value)} id="type" name="type">
-          <option value="">All</option>
+      <div className="filters-bar">
+        <select value={filters.type} onChange={(e) => handleChange('type', e.target.value)}>
+          <option value="">Type</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
 
-        <label htmlFor="category">
-          Category:
-        </label>
-        <select onChange={(event) => setCategory(event.target.value)} id="category" name="category">
-          <option value="">All</option>
+        <select value={filters.category} onChange={(e) => handleChange('category', e.target.value)}>
+          <option value="">Category</option>
           <option value="salary">Salary</option>
           <option value="food">Food</option>
           <option value="rent">Rent</option>
           <option value="entertainment">Entertainment</option>
         </select>
 
-        <label htmlFor="startDate">
-          From:
-        </label>
-        <input onChange={(event) => setStartDate(event.target.value)} id="startDate" type="date" name="startDate" />
-        <label htmlFor="endDate">
-          To:
-        </label>
-        <input onChange={(event) => setEndDate(event.target.value)} id="endDate" type="date" name="endDate" />
+        <input type="date" value={filters.startDate} onChange={(e) => handleChange('startDate', e.target.value)} />
+        <input type="date" value={filters.endDate} onChange={(e) => handleChange('endDate', e.target.value)} />
+        <input type="number" placeholder="Min Amount" value={filters.minAmount} onChange={(e) => handleChange('minAmount', e.target.value)} />
+        <input type="number" placeholder="Max Amount" value={filters.maxAmount} onChange={(e) => handleChange('maxAmount', e.target.value)} />
 
-        <label htmlFor="minAmount">
-          Min Amount:
-        </label>
-        <input onChange={(event) => setMinAmount(event.target.value)} id="minAmount" type="number" name="minAmount" />
-        <label htmlFor="maxAmount">
-          Max Amount:
-        </label>
-        <input onChange={(event) => setMaxAmount(event.target.value)} id="maxAmount" type="number" name="maxAmount" />
-
-        <button type="submit">Apply Filters</button>
-      </form>
-
-  )
-}
+        <button onClick={resetFilters} className="reset-button">Reset</button>
+      </div>
+  );
+};
 
 export default TransactionFilters;

@@ -6,7 +6,6 @@ import ExportCSV from './ExportCSV.jsx';
 
 const TransactionList = () => {
     const trackerCtx = use(TrackerContext)
-    const [showFilters, setShowFilters] = useState(false);
 
     const [filters, setFilters] = useState({
       type: '',
@@ -38,18 +37,19 @@ const TransactionList = () => {
       })
     }
 
-    return (
-        <div>
-          <h3>Transactions</h3>
-          {!showFilters && <div className='filter-buttons'><button onClick={() => setShowFilters(true)}>Filter transactions</button><button onClick={resetFilters}>Reset filters</button></div>}
-          {showFilters && <TransactionFilters showFilters={setShowFilters} setFilters={setFilters} />}
-          <p>{filtered.length === 0 && 'no transactions yet'}</p>
-          <ul id='transaction-list'>
-            {filtered && filtered.map((tr, i) => <Transaction key={i} data={tr} />)}
-          </ul>
-          <ExportCSV />
-        </div>
-    )
-}
+  return (
+      <div>
+        <h3>Transactions</h3>
+        <TransactionFilters setFilters={setFilters} resetFilters={resetFilters} filters={filters} />
+        <p>{filtered.length === 0 && 'No transactions yet'}</p>
+        <ul id="transaction-list">
+          {filtered.map((tr, i) => (
+              <Transaction key={i} data={tr} />
+          ))}
+        </ul>
+        <ExportCSV />
+      </div>
+  );
+};
 
 export default TransactionList;
