@@ -56,7 +56,6 @@ const trackerReducer = (state, action) => {
                 const currencyRates = {
                     EUR: 1,
                     USD: 1.1,
-                    GBP: 0.85,
                 }
 
                 const rateFrom = currencyRates[state.currency]
@@ -65,7 +64,8 @@ const trackerReducer = (state, action) => {
                 const conversionRate = rateTo / rateFrom
 
                 updatedTransactions = state.transactions.map((transaction) => {
-                    const convertedSum = (transaction.amount * conversionRate).toFixed(2).toString()
+                    const convertedSum = parseFloat((transaction.amount * conversionRate).toFixed(2))
+
                     return {
                         ...transaction,
                         amount: convertedSum,
