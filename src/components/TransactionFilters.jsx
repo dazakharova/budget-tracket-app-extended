@@ -42,7 +42,7 @@ const TransactionFilters = ({ showFilters, setFilters }) => {
         <label htmlFor="category">
           Category:
         </label>
-        <select onChange={(event) => setCategory(event.target.value)} name="category">
+        <select onChange={(event) => setCategory(event.target.value)} id="category" name="category">
           <option value="">All</option>
           <option value="salary">Salary</option>
           <option value="food">Food</option>
