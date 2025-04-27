@@ -2,10 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { describe, test, expect } from 'vitest'
 import TransactionList from '../components/TransactionList'
 import { TrackerContext } from '../store/tracker-context'
+import {setupModalRoot} from "../test-utils/SetupModal.js";
 
-const modalRoot = document.createElement('div');
-modalRoot.setAttribute('id', 'modal');
-document.body.appendChild(modalRoot);
+setupModalRoot();
 
 const testTransactions = [
   { id: 1, description: 'Groceries', amount: -25, category: 'food', type: 'expense' },

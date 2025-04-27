@@ -1,8 +1,17 @@
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { use } from 'react';
 import { TrackerContext } from '../../store/tracker-context.jsx';
 
-const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#a4de6c'];
+const COLORS = [
+  '#8884d8',
+  '#82ca9d',
+  '#ffc658',
+  '#ff8042',
+  '#a4de6c',
+  '#d0ed57',
+  '#8dd1e1',
+  '#d88884'
+];
 
 const ExpensePieChart = () => {
   const { transactions } = use(TrackerContext);
@@ -11,7 +20,7 @@ const ExpensePieChart = () => {
 
   const data = expenses.reduce((acc, curr) => {
     const existing = acc.find(e => e.name === curr.category);
-    const value = Math.abs(parseFloat(curr.amount)); // Remove "-"
+    const value = Math.abs(parseFloat(curr.amount));
     if (existing) {
       existing.value += value;
     } else {
@@ -21,15 +30,15 @@ const ExpensePieChart = () => {
   }, []);
 
   return (
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
+      <div style={{ width: 400, height: 400 }}>
+        <PieChart width={400} height={400}>
           <Pie
               data={data}
               dataKey="value"
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={80}
+              outerRadius={120}
               fill="#8884d8"
               label
           >
@@ -40,8 +49,7 @@ const ExpensePieChart = () => {
           <Tooltip />
           <Legend />
         </PieChart>
-      </ResponsiveContainer>
-
+      </div>
   );
 };
 
