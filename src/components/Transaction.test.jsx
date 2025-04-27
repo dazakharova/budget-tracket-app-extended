@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { describe, test, expect } from 'vitest'
 import Transaction from './Transaction.jsx'
+import {setupModalRoot} from '../test-utils/SetupModal.js'
 
-const modalRoot = document.createElement('div');
-modalRoot.setAttribute('id', 'modal');
-document.body.appendChild(modalRoot);
+setupModalRoot();
 
 describe('Transaction component', () => {
   test('renders correctly', () => {
