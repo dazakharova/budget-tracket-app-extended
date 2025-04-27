@@ -42,4 +42,15 @@ describe('TransactionList integration', () => {
     expect(screen.queryByText('Groceries')).not.toBeInTheDocument();
     expect(screen.queryByText('Movie')).not.toBeInTheDocument();
   });
+
+  test('filters transactions by category (food)', async () => {
+    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+
+    await userEvent.selectOptions(screen.getByLabelText(/category/i), 'food');
+    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
+
+    expect(screen.getByText('Groceries')).toBeInTheDocument();
+    expect(screen.queryByText('Salary')).not.toBeInTheDocument();
+    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+  });
 });
