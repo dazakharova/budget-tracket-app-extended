@@ -22,8 +22,8 @@ const TransactionFilters = ({ setFilters, resetFilters, filters }) => {
           <option value="entertainment">Entertainment</option>
         </select>
 
-        <input type="date" value={filters.startDate} onChange={(e) => handleChange('startDate', e.target.value)} />
-        <input type="date" value={filters.endDate} onChange={(e) => handleChange('endDate', e.target.value)} />
+        <input type="date" aria-label="start date" value={filters.startDate} onChange={(e) => handleChange('startDate', e.target.value)} />
+        <input type="date" aria-label="end date" value={filters.endDate} onChange={(e) => handleChange('endDate', e.target.value)} />
         <input type="number" placeholder="Min Amount" value={filters.minAmount} onChange={(e) => handleChange('minAmount', e.target.value)} />
         <input type="number" placeholder="Max Amount" value={filters.maxAmount} onChange={(e) => handleChange('maxAmount', e.target.value)} />
 
@@ -33,3 +33,4 @@ const TransactionFilters = ({ setFilters, resetFilters, filters }) => {
 };
 
 export default TransactionFilters;
+
