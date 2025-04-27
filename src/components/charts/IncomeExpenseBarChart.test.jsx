@@ -33,4 +33,16 @@ describe('<IncomeExpenseBarChart />', () => {
   });
 });
 
+describe('<IncomeExpenseBarChart /> with empty transactions', () => {
+  test('shows "No data to display" when no transactions', () => {
+    render(
+        <TrackerContext.Provider value={{ transactions: [] }}>
+          <IncomeExpenseBarChart />
+        </TrackerContext.Provider>
+    );
+
+    expect(screen.getByText('No data to display')).toBeInTheDocument();
+  });
+});
+
 
