@@ -76,4 +76,22 @@ describe('TransactionList integration', () => {
     expect(screen.getByText('Groceries')).toBeInTheDocument();
     expect(screen.queryByText('Movie')).not.toBeInTheDocument();
   });
+
+  test('filters transactions by type, category, and date range together', async () => {
+    await userEvent.click(screen.getByRole('button', { name: /filter transactions/i }));
+
+    await userEvent.selectOptions(screen.getByLabelText(/type/i), 'expense');
+
+    await userEvent.selectOptions(screen.getByLabelText(/category/i), 'food');
+
+    await userEvent.type(screen.getByLabelText(/from/i), '2025-04-01');
+    await userEvent.type(screen.getByLabelText(/to/i), '2025-04-30');
+
+    await userEvent.click(screen.getByRole('button', { name: /apply filters/i }));
+
+    expect(screen.getByText('Groceries')).toBeInTheDocument();
+    expect(screen.queryByText('Salary')).not.toBeInTheDocument();
+    expect(screen.queryByText('Movie')).not.toBeInTheDocument();
+  });
+
 });
