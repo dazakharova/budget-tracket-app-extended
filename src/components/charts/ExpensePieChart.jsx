@@ -29,6 +29,10 @@ const ExpensePieChart = () => {
     return acc;
   }, []);
 
+  if (data.length === 0) {
+    return <p>No data to display</p>;
+  }
+
   return (
       <div style={{ width: 400, height: 400 }}>
         <PieChart width={400} height={400}>
