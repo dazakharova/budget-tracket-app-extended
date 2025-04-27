@@ -1,7 +1,7 @@
 import app from "./app.js";
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;  // use Render's PORT, fallback to 3001 locally
 
 app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
+  console.log(`Backend running on port ${PORT}`);
 });
