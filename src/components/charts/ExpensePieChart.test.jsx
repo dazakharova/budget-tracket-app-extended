@@ -42,3 +42,15 @@ describe('<ExpensePieChart />', () => {
     expect(categoryElements.length).toBe(3);
   });
 });
+
+describe('<ExpensePieChart /> with empty transactions', () => {
+  test('shows "No data to display" when no transactions', () => {
+    render(
+        <TrackerContext.Provider value={{ transactions: [] }}>
+          <ExpensePieChart />
+        </TrackerContext.Provider>
+    );
+
+    expect(screen.getByText('No data to display')).toBeInTheDocument();
+  });
+});
