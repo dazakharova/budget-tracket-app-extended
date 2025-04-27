@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, beforeEach } from 'vitest';
 import ExpensePieChart from './ExpensePieChart';
 import { TrackerContext } from '../../store/tracker-context.jsx';
-import {setupModalRoot} from "../../test-utils/SetupModal.js";
+import { setupModalRoot } from "../../test-utils/SetupModal.js";
 
 setupModalRoot();
 
@@ -14,13 +14,15 @@ describe('<ExpensePieChart />', () => {
     { id: '4', type: 'expense', category: 'Entertainment', amount: 20 },
   ];
 
-  test('renders pie chart with correct number of expense slices', () => {
+  beforeEach(() => {
     render(
         <TrackerContext.Provider value={{ transactions: mockTransactions }}>
           <ExpensePieChart />
         </TrackerContext.Provider>
     );
+  });
 
+  test('renders pie chart with correct expense slices', () => {
     expect(screen.getByText('Food')).toBeInTheDocument();
     expect(screen.getByText('Transport')).toBeInTheDocument();
     expect(screen.getByText('Entertainment')).toBeInTheDocument();
