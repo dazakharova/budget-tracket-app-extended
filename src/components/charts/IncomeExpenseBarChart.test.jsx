@@ -26,6 +26,11 @@ describe('<IncomeExpenseBarChart />', () => {
     expect(screen.getByText('Apr 2025')).toBeInTheDocument();
     expect(screen.getByText('May 2025')).toBeInTheDocument();
   });
+
+  test('renders legend items for income and expense', () => {
+    expect(screen.getByText('Income')).toBeInTheDocument();
+    expect(screen.getByText('Expense')).toBeInTheDocument();
+  });
 });
 
 
