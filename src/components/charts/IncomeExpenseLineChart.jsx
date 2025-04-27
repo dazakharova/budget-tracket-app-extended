@@ -5,7 +5,6 @@ import {
   YAxis,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from 'recharts';
 import { use } from 'react';
 import { TrackerContext } from '../../store/tracker-context.jsx';
@@ -30,7 +29,7 @@ const IncomeExpenseLineChart = () => {
     if (t.type === 'income') {
       grouped[month].income += parseFloat(t.amount);
     } else if (t.type === 'expense') {
-      grouped[month].expense += Math.abs(parseFloat(t.amount)); // remove "-" if present
+      grouped[month].expense += Math.abs(parseFloat(t.amount)); // remove "-"
     }
   });
 
@@ -38,9 +37,13 @@ const IncomeExpenseLineChart = () => {
       new Date('1 ' + a.month) - new Date('1 ' + b.month)
   );
 
+  if (data.length === 0) {
+    return <p>No data to display</p>;
+  }
+
   return (
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+      <div style={{ height: '300px', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <LineChart width={400} height={300} data={data}>
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
@@ -48,7 +51,7 @@ const IncomeExpenseLineChart = () => {
           <Line type="monotone" dataKey="income" name="Income" stroke="#82ca9d" strokeWidth={2} />
           <Line type="monotone" dataKey="expense" name="Expense" stroke="#ff8042" strokeWidth={2} />
         </LineChart>
-      </ResponsiveContainer>
+      </div>
   );
 };
 
