@@ -8,6 +8,8 @@ const TransactionEditor = ({ transaction, setEditing }) => {
   const [amount, setAmount] = useState(transaction.amount);
   const [category, setCategory] = useState(transaction.category);
 
+  const categoryOptions = ['salary', 'food', 'gasoline', 'candies', 'electricity/utilities', 'rent', 'entertainment', 'health', 'shopping', 'other' ]
+
   const handleUpdate = (event) => {
     event.preventDefault()
 
@@ -42,10 +44,9 @@ const TransactionEditor = ({ transaction, setEditing }) => {
           </div>
           <div className="category-wrapper">
             <select id="category" name="category" value={category} onChange={(event) => {setCategory(event.target.value)}}>
-              <option value="salary">Salary</option>
-              <option value="gasoline">Gasoline</option>
-              <option value="food">Food</option>
-              <option value="magazines">Magazines</option>
+              {categoryOptions.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+              ))}
             </select>
           </div>
         </form>
